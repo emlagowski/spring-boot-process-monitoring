@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+
+
+management.endpoints.web.exposure.include: '*'
