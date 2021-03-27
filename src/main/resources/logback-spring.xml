@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="local">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+    <springProfile name="!local">
+        <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="unknown"/>
+        <contextName>${appName}</contextName>
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <contextName>
+                        <fieldName>app</fieldName>
+                    </contextName>
+                    <timestamp>
+                        <fieldName>ts</fieldName>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <loggerName>
+                        <fieldName>logger</fieldName>
+                    </loggerName>
+                    <logLevel>
+                        <fieldName>level</fieldName>
+                    </logLevel>
+                    <callerData>
+                        <classFieldName>class</classFieldName>
+                        <methodFieldName>method</methodFieldName>
+                        <lineFieldName>line</lineFieldName>
+                        <fileFieldName>file</fileFieldName>
+                    </callerData>
+                    <threadName>
+                        <fieldName>thread</fieldName>
+                    </threadName>
+                    <mdc/>
+                    <arguments>
+                        <includeNonStructuredArguments>true</includeNonStructuredArguments>
+                    </arguments>
+                    <stackTrace>
+                        <fieldName>stack</fieldName>
+                    </stackTrace>
+                    <throwableClassName>
+                        <fieldName>throwableClassName</fieldName>
+                    </throwableClassName>
+                    <throwableRootCauseClassName>
+                        <fieldName>throwableRootCauseClassName</fieldName>
+                    </throwableRootCauseClassName>
+                    <rootStackTraceElement>
+                        <fieldName>rootStackTraceElement</fieldName>
+                    </rootStackTraceElement>
+                    <stackHash>
+                        <fieldName>stackHash</fieldName>
+                    </stackHash>
+                    <message>
+                        <fieldName>msg</fieldName>
+                    </message>
+                </providers>
+            </encoder>
+        </appender>
+ 
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+</configuration>

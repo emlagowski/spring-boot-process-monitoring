@@ -13,18 +13,31 @@ services:
       POSTGRES_PASSWORD: secret
     ports:
       - "5432:5432"
+    depends_on:
+      - logstash
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "db"
 
   pgadmin:
     image: dpage/pgadmin4:4.18
     restart: always
     depends_on:
      - db
+     - logstash
     environment:
       PGADMIN_DEFAULT_EMAIL: example@example.com
       PGADMIN_DEFAULT_PASSWORD: secret
       PGADMIN_LISTEN_PORT: 80
     ports:
       - "8070:80"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "pgadmin"
 
   web:
     container_name: web
@@ -35,18 +48,30 @@ services:
       SPRING_DATASOURCE_PASSWORD: secret
     depends_on:
       - db
+      - logstash
     ports:
       - 8080:8080
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "web"
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     depends_on:
       - web
+      - logstash
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "prometheus"
 
   grafana:
     image: grafana/grafana:7.3.10
@@ -55,9 +80,47 @@ services:
       - "GF_INSTALL_PLUGINS=jdbranham-diagram-panel"
     depends_on:
       - prometheus
+      - logstash
     ports:
       - 3000:3000
     volumes:
       - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
       - ./grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "grafana"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+      - logstash
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "kibana"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.6.2
+    links:
+      - elasticsearch
+    volumes:
+      - ./logstash:/etc/logstash
+    command: logstash -f /etc/logstash/logstash.conf
+    ports:
+      - 12201:12201/udp
+    depends_on:
+      - elasticsearch
