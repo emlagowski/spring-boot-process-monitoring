@@ -13,3 +13,5 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     version: 1
+  - name: Elasticsearch
+    url: http://elasticsearch:9200

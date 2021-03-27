@@ -3,7 +3,7 @@
     <springProfile name="local">
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
     </springProfile>
-    <springProfile name="!local">
+    <springProfile name="docker">
         <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="unknown"/>
         <contextName>${appName}</contextName>
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

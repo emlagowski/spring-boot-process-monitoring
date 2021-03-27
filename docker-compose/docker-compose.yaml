@@ -18,10 +18,11 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "db"
 
   pgadmin:
+    container_name: pgadmin
     image: dpage/pgadmin4:4.18
     restart: always
     depends_on:
@@ -36,7 +37,7 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "pgadmin"
 
   web:
@@ -46,6 +47,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/example_db
       SPRING_DATASOURCE_USERNAME: example_user
       SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - db
       - logstash
@@ -54,7 +56,7 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "web"
 
   prometheus:
@@ -70,7 +72,7 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "prometheus"
 
   grafana:
@@ -90,18 +92,28 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "grafana"
 
   elasticsearch:
+    container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
     environment:
       - discovery.type=single-node
     ports:
       - 9200:9200
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://192.168.1.141:12201"
+        tag: "kibana"
 
   kibana:
+    container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.6.2
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
     ports:
       - 5601:5601
     depends_on:
@@ -110,17 +122,28 @@ services:
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://localhost:12201"
+        gelf-address: "udp://192.168.1.141:12201"
         tag: "kibana"
 
   logstash:
+    container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.6.2
     links:
       - elasticsearch
     volumes:
-      - ./logstash:/etc/logstash
-    command: logstash -f /etc/logstash/logstash.conf
+#      - type: bind
+#        source: ./logstash/config/logstash.yml
+#        target: /usr/share/logstash/config/logstash.yml
+#        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+#      - ./logstash/pipeline/logstash.conf:/etc/logstash/conf.d/logstash.conf:ro
+    command: logstash -f /usr/share/logstash/pipeline
     ports:
       - 12201:12201/udp
+      - 9600:9600
+      - 5044:5044
     depends_on:
       - elasticsearch
