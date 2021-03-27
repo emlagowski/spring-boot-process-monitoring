@@ -2,10 +2,14 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
 
 
 management.endpoints.web.exposure.include: '*'
+
+process:
+  initEveryMillis: 500
+  moveEveryMillis: 100

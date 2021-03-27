@@ -1,0 +1,325 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "db_table_size_rows",
+          "interval": "",
+          "legendFormat": "{{processState}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Panel Title",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "7.3.10",
+      "targets": [
+        {
+          "expr": "db_table_size_rows",
+          "interval": "",
+          "legendFormat": "{{processState}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Panel Title",
+      "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "valueName": "last"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "anonymousTracking": true,
+        "authPassword": "",
+        "authUsername": "",
+        "composites": [],
+        "content": "graph LR\n    A[Registered] --> B\n    B[In progress] --> H{How?}\n    H --> C[Auto]\n    H --> D[Manual]\n    C --> E[Closed]\n    D --> E",
+        "legend": {
+          "asTable": true,
+          "displayMode": "table",
+          "gradient": {
+            "enabled": true,
+            "show": true
+          },
+          "hideEmpty": false,
+          "hideZero": false,
+          "placement": "under",
+          "show": false,
+          "sortBy": "last",
+          "sortDesc": true,
+          "stats": [
+            "mean",
+            "last",
+            "min",
+            "max",
+            "sum"
+          ]
+        },
+        "maxWidth": true,
+        "mermaidServiceUrl": "",
+        "mermaidThemeVariablesDark": {
+          "classDiagram": {},
+          "common": {
+            "fontFamily": "Roboto,Helvetica Neue,Arial,sans-serif"
+          },
+          "flowChart": {},
+          "sequenceDiagram": {},
+          "stateDiagram": {},
+          "userJourneyDiagram": {}
+        },
+        "mermaidThemeVariablesLight": {
+          "classDiagram": {},
+          "common": {
+            "fontFamily": "Roboto,Helvetica Neue,Arial,sans-serif"
+          },
+          "flowChart": {},
+          "sequenceDiagram": {},
+          "stateDiagram": {},
+          "userJourneyDiagram": {}
+        },
+        "metricCharacterReplacements": [],
+        "moddedSeriesVal": 0,
+        "mode": "content",
+        "nodeSize": {
+          "minHeight": 0,
+          "minWidth": 0
+        },
+        "pluginVersion": "7.3.10",
+        "style": "",
+        "useBackground": true,
+        "useBasicAuth": false,
+        "valueName": "last"
+      },
+      "pluginVersion": "1.7.1",
+      "targets": [
+        {
+          "expr": "db_table_size_rows{processState=\"REGISTERED\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "A",
+          "refId": "A"
+        },
+        {
+          "expr": "db_table_size_rows{processState=\"IN_PROGRESS\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "B",
+          "refId": "B"
+        },
+        {
+          "expr": "db_table_size_rows{processState=\"AUTO\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "C",
+          "refId": "C"
+        },
+        {
+          "expr": "db_table_size_rows{processState=\"MANUAL\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "D",
+          "refId": "D"
+        },
+        {
+          "expr": "db_table_size_rows{processState=\"CLOSED\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "E",
+          "refId": "E"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Proces Graph",
+      "transparent": true,
+      "type": "jdbranham-diagram-panel"
+    }
+  ],
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Proces Dashboard",
+  "uid": "AKqpGjwGk",
+  "version": 5
+}
