@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: example_db
       POSTGRES_USER: example_user
       POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
 
   pgadmin:
     image: dpage/pgadmin4:4.18
