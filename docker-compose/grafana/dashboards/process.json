@@ -308,37 +308,37 @@
           "refId": "E"
         },
         {
-          "expr": "rate(process_movement_total{type=\"REGISTERED\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"REGISTERED\",}[1m])",
           "interval": "",
           "legendFormat": "reg",
           "refId": "F"
         },
         {
-          "expr": "rate(process_movement_total{type=\"REGISTERED->IN_PROGRESS\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"REGISTERED->IN_PROGRESS\",}[1m])",
           "interval": "",
           "legendFormat": "proc",
           "refId": "G"
         },
         {
-          "expr": "rate(process_movement_total{type=\"IN_PROGRESS->AUTO\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"IN_PROGRESS->AUTO\",}[1m])",
           "interval": "",
           "legendFormat": "a",
           "refId": "H"
         },
         {
-          "expr": "rate(process_movement_total{type=\"IN_PROGRESS->MANUAL\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"IN_PROGRESS->MANUAL\",}[1m])",
           "interval": "",
           "legendFormat": "m",
           "refId": "I"
         },
         {
-          "expr": "rate(process_movement_total{type=\"AUTO->CLOSED\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"AUTO->CLOSED\",}[1m])",
           "interval": "",
           "legendFormat": "ac",
           "refId": "J"
         },
         {
-          "expr": "rate(process_movement_total{type=\"MANUAL->CLOSED\",}[1m])",
+          "expr": "rate(process_transitions_total{stage=\"MANUAL->CLOSED\",}[1m])",
           "interval": "",
           "legendFormat": "mc",
           "refId": "K"
