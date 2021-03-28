@@ -56,8 +56,9 @@ Copy [.env.example](docker-compose/.env.example) as [.env](docker-compose/.env) 
 You need to set HOST_IP variable with your host IP to send your logs to Logstash. You can get your IP with command below.
 
 ```shell
-cp docker-compose/.env.example /docker-compose/.env
-ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2
+cd docker-compose
+HOST_IP=$(ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2)
+sed 's@todo_set_me_up@'"$HOST_IP"'@' .env.example > .env
 ```
 
 If needed you can change web app image name in [build.gradle.kts](build.gradle.kts) and [.env](docker-compose/.env).
