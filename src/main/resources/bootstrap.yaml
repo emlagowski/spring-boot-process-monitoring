@@ -1,1 +1,3 @@
-spring.application.name: spring-database-metrics
+spring:
+  application:
+    name: spring-database-metrics

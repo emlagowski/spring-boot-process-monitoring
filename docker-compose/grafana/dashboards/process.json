@@ -205,7 +205,7 @@
         "authPassword": "",
         "authUsername": "",
         "composites": [],
-        "content": "graph LR\n    A[Registered] --> B\n    B[In progress] --> H{How?}\n    H --> C[Auto]\n    H --> D[Manual]\n    C --> E[Closed]\n    D --> E",
+        "content": "graph LR\n    A[Registered] -- reg --> B\n    B[In progress] -- proc --> H{How?}\n    H -- a --> C[Auto]\n    H -- m --> D[Manual]\n    C -- ac --> E[Closed]\n    D -- mc --> E",
         "legend": {
           "asTable": true,
           "displayMode": "table",
@@ -298,6 +298,42 @@
           "interval": "",
           "legendFormat": "E",
           "refId": "E"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"REGISTERED\",}[1m])",
+          "interval": "",
+          "legendFormat": "reg",
+          "refId": "F"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"REGISTERED->IN_PROGRESS\",}[1m])",
+          "interval": "",
+          "legendFormat": "proc",
+          "refId": "G"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"IN_PROGRESS->AUTO\",}[1m])",
+          "interval": "",
+          "legendFormat": "a",
+          "refId": "H"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"IN_PROGRESS->MANUAL\",}[1m])",
+          "interval": "",
+          "legendFormat": "m",
+          "refId": "I"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"AUTO->CLOSED\",}[1m])",
+          "interval": "",
+          "legendFormat": "ac",
+          "refId": "J"
+        },
+        {
+          "expr": "rate(process_movement_total{type=\"MANUAL->CLOSED\",}[1m])",
+          "interval": "",
+          "legendFormat": "mc",
+          "refId": "K"
         }
       ],
       "timeFrom": null,
@@ -305,8 +341,367 @@
       "title": "Proces Graph",
       "transparent": true,
       "type": "jdbranham-diagram-panel"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Elasticsearch-1",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "CLOSED",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:93",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:91",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web AND app_log.msg:\"Moved to state CLOSED\"",
+          "refId": "A",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "IN_PROGRESS",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:111",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:109",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web AND app_log.msg:\"Moved to state IN_PROGRESS\"",
+          "refId": "B",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "AUTO",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:129",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:127",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web AND app_log.msg:\"Moved to state AUTO\"",
+          "refId": "C",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "MANUAL",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:147",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:145",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web AND app_log.msg:\"Moved to state MANUAL\"",
+          "refId": "D",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "CLOSED",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:165",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:163",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web AND app_log.msg:\"Moved to state CLOSED\"",
+          "refId": "E",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stage movement",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Elasticsearch-1",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.10",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:463",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:461",
+              "field": "select field",
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "container_name:web",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "App logs",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
+  "refresh": "5s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -314,12 +709,12 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Proces Dashboard",
   "uid": "AKqpGjwGk",
-  "version": 5
+  "version": 1
 }

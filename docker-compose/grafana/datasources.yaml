@@ -12,6 +12,12 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
-    version: 1
+    readOnly: true
   - name: Elasticsearch
+    type: elasticsearch
+    access: proxy
+    database: logstash-*
     url: http://elasticsearch:9200
+    jsonData:
+      timeField: "@timestamp"
+    readOnly: true
