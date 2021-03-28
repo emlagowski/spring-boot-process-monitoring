@@ -51,7 +51,13 @@ This repository contains:
 
 ## How to start
 
-Copy [.env.example](docker-compose/.env.example) as [.env](docker-compose/.env) and edit properties you want.
+Copy [.env.example](docker-compose/.env.example) as [.env](docker-compose/.env) and edit properties you want. 
+
+You need to set HOST_IP variable with your host IP to send your logs to Logstash. You can get your IP with command below.
+
+```shell
+ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2
+```
 
 If needed you can change web app image name in [build.gradle.kts](build.gradle.kts) and [.env](docker-compose/.env).
 
