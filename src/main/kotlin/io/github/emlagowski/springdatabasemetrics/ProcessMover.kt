@@ -24,7 +24,7 @@ class ProcessMover(final val processRepository: ProcessRepository, final val pro
     }
 
     @Transactional
-    @Scheduled(fixedRateString = "\${process.initEveryMillis}")
+    @Scheduled(fixedRateString = "\${process.moveEveryMillis}")
     fun move() {
         processRepository.findFirstByStateNot(State.CLOSED)?.let {
             val from = it.state

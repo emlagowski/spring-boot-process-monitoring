@@ -177,15 +177,23 @@
           },
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "green",
+                "color": "semi-dark-green",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "dark-red",
+                "value": 85
               }
             ]
           },
@@ -194,7 +202,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 17,
+        "h": 12,
         "w": 24,
         "x": 0,
         "y": 8
@@ -347,250 +355,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Elasticsearch-1",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 25
-      },
-      "hiddenSeries": false,
-      "id": 8,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": true,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.3.10",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "CLOSED",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:93",
-              "field": "@timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:91",
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "container_name:web AND app_log.msg:\"Moved to state CLOSED\"",
-          "refId": "A",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "IN_PROGRESS",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:111",
-              "field": "@timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:109",
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "container_name:web AND app_log.msg:\"Moved to state IN_PROGRESS\"",
-          "refId": "B",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "AUTO",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:129",
-              "field": "@timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:127",
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "container_name:web AND app_log.msg:\"Moved to state AUTO\"",
-          "refId": "C",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "MANUAL",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:147",
-              "field": "@timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:145",
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "container_name:web AND app_log.msg:\"Moved to state MANUAL\"",
-          "refId": "D",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "CLOSED",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:165",
-              "field": "@timestamp",
-              "id": "2",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:163",
-              "field": "select field",
-              "id": "1",
-              "type": "count"
-            }
-          ],
-          "query": "container_name:web AND app_log.msg:\"Moved to state CLOSED\"",
-          "refId": "E",
-          "timeField": "@timestamp"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Stage movement",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Elasticsearch-1",
+      "datasource": "Elasticsearch",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -602,8 +367,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 25
+        "x": 0,
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 10,
@@ -635,7 +400,7 @@
         {
           "bucketAggs": [
             {
-              "$$hashKey": "object:463",
+              "$$hashKey": "object:245",
               "field": "@timestamp",
               "id": "2",
               "settings": {
@@ -648,13 +413,12 @@
           ],
           "metrics": [
             {
-              "$$hashKey": "object:461",
+              "$$hashKey": "object:243",
               "field": "select field",
               "id": "1",
               "type": "count"
             }
           ],
-          "query": "container_name:web",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -709,7 +473,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
