@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class SpringDatabaseMetricsApplication
 
 fun main(args: Array<String>) {
-	runApplication<SpringDatabaseMetricsApplication>(*args)
+    runApplication<SpringDatabaseMetricsApplication>(*args)
 }

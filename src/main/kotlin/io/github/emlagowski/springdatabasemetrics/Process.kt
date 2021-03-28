@@ -3,18 +3,22 @@ package io.github.emlagowski.springdatabasemetrics
 import javax.persistence.*
 
 @Entity
-data class Process(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Int = 0,
+data class Process private constructor(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int = 0,
 
-        @Column
-        val name: String,
-
-        @Column
-        @Enumerated(EnumType.STRING)
-        var state: State
+    @Column
+    @Enumerated(EnumType.STRING)
+    var state: State
 ) {
+
+    companion object {
+        fun create(): Process {
+            return Process(state = State.REGISTERED)
+        }
+    }
+
     fun moveToRandomNextStep(): State {
         if (state.isTerminal()) {
             throw IllegalStateException("Cannot move further from terminal state $state.")

@@ -1,21 +1,21 @@
 package io.github.emlagowski.springdatabasemetrics
 
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/process")
-class ProcessController(val processRepository: ProcessRepository) {
+class ProcessController(val processService: ProcessService) {
     @PostMapping
-    fun get(@RequestBody processRequest: ProcessRequest): ProcessCreationResponse {
-        val request = Process(name = processRequest.name, state = processRequest.state)
-        val savedProcess = processRepository.save(request)
-        return ProcessCreationResponse(savedProcess.id)
+    fun get(): ProcessCreationResponse {
+        val initializedProcess = processService.initializeProcess()
+        return initializedProcess.toResponse()
     }
 }
 
-data class ProcessRequest(val name: String, val state: State)
+private fun Process.toResponse(): ProcessCreationResponse {
+    return ProcessCreationResponse(this.id)
+}
 
 data class ProcessCreationResponse(val id: Int)
