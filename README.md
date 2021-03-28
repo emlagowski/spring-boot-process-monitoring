@@ -56,6 +56,7 @@ Copy [.env.example](docker-compose/.env.example) as [.env](docker-compose/.env) 
 You need to set HOST_IP variable with your host IP to send your logs to Logstash. You can get your IP with command below.
 
 ```shell
+cp docker-compose/.env.example /docker-compose/.env
 ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2
 ```
 
